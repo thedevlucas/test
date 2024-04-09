@@ -6,8 +6,16 @@
     font-family: "Poppins", sans-serif;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     background: #1A1920;
+    background-image: url(/assets/images/bbblurry.svg);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 100%;
 }
 
 header {
