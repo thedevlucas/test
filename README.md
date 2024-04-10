@@ -27,6 +27,6 @@ This page was created with the intention of testing my skills and is not affilia
 
 ## 🎨 Used Colors
 
-- <div style="width: 5px; height: 5px; background: #B298FA;" >#B298FA</div>
+- ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `#f03c15`
 
 <p align="right">(<a href="#readme-top">Go up</a>)</p>
