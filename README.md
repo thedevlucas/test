@@ -25,7 +25,7 @@ This page was created with the intention of testing my skills and is not affilia
 
 <p align="right">(<a href="#readme-top">Go up</a>)</p>
 
-## 🎨 Used Colors
+## 🎨 Color palette
 
 - ![#f03c15](https://placehold.co/15x15/B298FA/B298FA.png) `#B298FA`
 - ![#f03c15](https://placehold.co/15x15/82B837/82B837.png) `#82B837`
