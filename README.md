@@ -35,6 +35,5 @@ This page was created with the intention of testing my skills and is not affilia
 - ![#f03c15](https://placehold.co/15x15/3E2324/3E2324.png) `#3E2324`
 - ![#f03c15](https://placehold.co/15x15/2E3625/2E3625.png) `#2E3625`
 - ![#f03c15](https://placehold.co/15x15/d3d0e0/d3d0e0.png) `#d3d0e0`
-- ![#f03c15](https://placehold.co/15x15/B298FA/B298FA.png) `#B298FA`
 
 <p align="right">(<a href="#readme-top">Go up</a>)</p>
