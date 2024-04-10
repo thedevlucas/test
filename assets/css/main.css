@@ -154,7 +154,6 @@ header .button {
     width: 20%;
     border-radius: 15px;
     margin-right: 5%;
-    
 }
 
 .tradingDivisor .cards .card .title {
@@ -351,6 +350,27 @@ header .button {
     margin-right: 5%;
     padding: 35px;
 }
+
+.havetoappear {
+    opacity: 0;
+    transform: translate3d(0, 500px, 0);
+}
+
+.havetoappearLeft {
+    opacity: 0;
+    transform: translate3d(-300px, 0, 0);
+}
+
+.havetoappearRight {
+    opacity: 0;
+    transform: translate3d(-300px, 0, 0);
+}
+
+.ready {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+}
+
 .buySection .plans .plan .planInfo .title {
     color: white;
     margin-bottom: 5%;
@@ -413,4 +433,44 @@ footer {
     bottom: 50;
     width: 100%;
     padding: 5% 0;
+}
+
+.loadingscreen {
+    background: rgba(0,0,0,1);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 400;
+    position: fixed;
+    top: 0;
+    
+}
+
+.appear {
+    animation: aparecer 2s ease-in-out forwards;
+}
+
+
+.loader {
+    width: 50px;
+    padding: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #4b4aa5;
+    --_m: 
+      conic-gradient(#0000 10%,#000),
+      linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+            mask: var(--_m);
+    -webkit-mask-composite: source-out;
+            mask-composite: subtract;
+    animation: l3 1s infinite linear;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 500;
 }

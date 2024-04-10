@@ -1,5 +1,46 @@
-@keyframes scroll {
-    to {
-        transform: translate(-50%);
+@keyframes l3 {to{transform: rotate(1turn)}}
+@keyframes aparecer {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
 }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 300px, 0);
+    }
+
+    to {
+        transform: translate3d(0,0,0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-300px, 0, 0);
+    }
+
+    to {
+        transform: translate3d(0,0,0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(300px, 0, 0);
+    }
+
+    to {
+        transform: translate3d(0,0,0);
+        opacity: 1;
+    }
+}
+
