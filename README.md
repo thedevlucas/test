@@ -27,6 +27,6 @@ This page was created with the intention of testing my skills and is not affilia
 
 ## 🎨 Used Colors
 
-- <div style="width: 5px; height: 5px; background: #B298FA;" />#B298FA
+- <div style="width: 5px; height: 5px; background: #B298FA;" >#B298FA</div>
 
 <p align="right">(<a href="#readme-top">Go up</a>)</p>
