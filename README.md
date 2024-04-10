@@ -25,8 +25,8 @@ This page was created with the intention of testing my skills and is not affilia
 
 <p align="right">(<a href="#readme-top">Go up</a>)</p>
 
-## 🛠️ Stack
+## 🎨 Used Colors
 
-- ASD
+- <div style="width: 5px; height: 5px; background: #B298FA;" />#B298FA
 
 <p align="right">(<a href="#readme-top">Go up</a>)</p>
