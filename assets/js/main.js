@@ -19,7 +19,7 @@ setTimeout(() => {
             }, 2000);
         }
     }  
-}, 100);
+}, 2000);
 
 document.addEventListener("scroll", () => {
     if (packsAnimations == 0){
