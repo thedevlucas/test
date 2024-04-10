@@ -27,6 +27,7 @@ This page was created with the intention of testing my skills and is not affilia
 
 ## 🎨 Color palette
 
+- ![#f03c15](https://placehold.co/15x15/784FE6/784FE6.png) `#784FE6`
 - ![#f03c15](https://placehold.co/15x15/B298FA/B298FA.png) `#B298FA`
 - ![#f03c15](https://placehold.co/15x15/82B837/82B837.png) `#82B837`
 - ![#f03c15](https://placehold.co/15x15/FC6668/FC6668.png) `#FC6668`
