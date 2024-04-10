@@ -315,6 +315,10 @@ header .button {
 
 .buySection {
     margin-bottom: 5%;
+    background-image: url(/assets/images/sections.svg);
+    background-repeat: no-repeat;
+    background-position: 50% -200%;
+    background-size: 50%;
 }
 
 .buySection .sectionTitle {
