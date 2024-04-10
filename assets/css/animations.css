@@ -1,0 +1,5 @@
+@keyframes scroll {
+    to {
+        transform: translate(-50%);
+    }
+}
