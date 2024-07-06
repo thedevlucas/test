@@ -1,0 +1,16 @@
+{
+    "web": {
+        "port": 80
+    },
+
+    "db": {
+        "host": "localhost",
+        "user": "root",
+        "pass": "",
+        "db": "trading"
+    },
+
+    "auth": {
+        "secret": "811f2a83-da36-4e1c-926c-e0239d6ceaef"
+    }
+}

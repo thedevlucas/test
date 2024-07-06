@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/register" method="post">
+        <label for="username">user</label>
+        <input type="text" id="username" name="username">
+        <label for="username">password</label>
+        <input type="text" id="password" name="password">
+        <button>submit</button>
+    </form>
+
+    <% if (typeof alert != "undefined") { %>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                title: "<%= alert.title %>",
+                text: "<%= alert.message %>",
+                icon: "<%= alert.icon %>",
+                showConfirmButton: "<%= alert.showConfirmButton %>",
+                confirmButtonColor: "#28a745",
+                timer: "<%= alert.time %>",
+            }).then(() => {
+                window.location = "/<%= alert.ruta %>"
+            })
+        </script>
+    <% } %>
+</body>
+</html>
