@@ -1,0 +1,56 @@
+form {
+    background: #2D2839;
+    border: 1px solid #b9a0ff;
+    width: 20%;
+    border-radius: 15px;
+    margin-right: 5%;
+    position: relative;
+    margin-top: 5%;
+    left: calc(50% - (20%/2));
+}
+
+form .inputs {
+    margin-top: 10%;
+}
+
+form .element {
+    
+    margin-left: 10%;
+    margin-bottom: 10%;
+}
+
+form .element input{
+    background: none;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5%;
+    width: 280px;
+    margin-top: 5px;
+    color: white;
+}
+form .element span {
+    color: white;
+}
+
+form .title h1 {
+    color: white;
+    text-align: center;
+    margin-top: 10%;
+}
+
+form button {
+    background-image: linear-gradient(90deg, rgba(120,79,230,1) 0%, rgba(103,52,214,1) 100%);
+    text-decoration: none;
+    color: white;
+    padding: 15px 35px;
+    border-radius: 5px;
+    position: absolute;
+    right: 2%;
+    margin-top: -2%;
+    font-weight: bold;
+    position: relative;
+    border: none;
+    cursor: pointer;
+    left: calc(50% - (30%/2));
+    margin-bottom: 10%;
+}

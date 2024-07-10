@@ -4,15 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="<%= getFile('css/form.css') %>">
+    <link rel="stylesheet" href="<%= getFile('css/main.css') %>">
+    <title>Trading | Register</title>
 </head>
 <body>
+    <%- include('components/header.ejs') -%>
+
     <form action="/register" method="post">
-        <label for="username">user</label>
-        <input type="text" id="username" name="username">
-        <label for="username">password</label>
-        <input type="text" id="password" name="password">
-        <button>submit</button>
+        <div class="title">
+            <h1>REGISTER</h1>
+        </div>
+        <div class="inputs">
+            <div class="element">
+                <span>Username</span>
+                <input type="text" name="username" />
+            </div>
+            <div class="element">
+                <span>Password</span>
+                <input type="password" name="password" />
+            </div>
+            <button>SIGN UP</button>
+        </div>
     </form>
 
     <% if (typeof alert != "undefined") { %>
