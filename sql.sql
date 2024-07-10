@@ -1,86 +1,54 @@
--- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 08-05-2024 a las 00:22:42
--- Versión del servidor: 10.1.37-MariaDB
--- Versión de PHP: 7.3.0
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Versión del servidor:         10.4.24-MariaDB - mariadb.org binary distribution
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             12.3.0.6589
+-- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Base de datos: `trading`
---
 
--- --------------------------------------------------------
+-- Volcando estructura de base de datos para trading
+CREATE DATABASE IF NOT EXISTS `trading` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+USE `trading`;
 
---
--- Estructura de tabla para la tabla `clientes`
---
+-- Volcando estructura para tabla trading.session
+CREATE TABLE IF NOT EXISTS `session` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `device` varchar(50) NOT NULL DEFAULT 'Unknown',
+  `application` varchar(50) NOT NULL DEFAULT 'Unknown',
+  `ip` varchar(50) NOT NULL DEFAULT 'Unknown',
+  `logged` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `FK_session_users` (`userId`),
+  CONSTRAINT `FK_session_users` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `clientes` (
-  `ID` int(11) NOT NULL,
-  `nombre` varchar(24) NOT NULL,
-  `apellido` varchar(24) NOT NULL,
-  `dni` int(11) NOT NULL,
-  `rango` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- Volcando datos para la tabla trading.session: ~0 rows (aproximadamente)
 
--- --------------------------------------------------------
+-- Volcando estructura para tabla trading.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group` enum('admin','user') NOT NULL DEFAULT 'user',
+  `username` varchar(50) NOT NULL,
+  `password` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
---
--- Estructura de tabla para la tabla `cursos`
---
+-- Volcando datos para la tabla trading.users: ~1 rows (aproximadamente)
+REPLACE INTO `users` (`id`, `group`, `username`, `password`) VALUES
+	(1, 'user', 'teta', '$2b$10$eOum8xXYCKPV5DbnsHT9COZKW.qky2L5412fGaklV/T1ovPgcHVei');
 
-CREATE TABLE `cursos` (
-  `ID` int(11) NOT NULL,
-  `nombre_curso` varchar(24) NOT NULL,
-  `curso_pack` varchar(24) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `clientes`
---
-ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indices de la tabla `cursos`
---
-ALTER TABLE `cursos`
-  ADD PRIMARY KEY (`ID`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `clientes`
---
-ALTER TABLE `clientes`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `cursos`
---
-ALTER TABLE `cursos`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
-
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
