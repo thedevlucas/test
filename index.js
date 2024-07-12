@@ -38,8 +38,8 @@ app.use((req, res, next) => {
 // routes
 let routes = require('./server/routes.js')
 app.use(routes.router);
-app.use('/app', routes.routerUser, express.static(path.join(__dirname, 'client/public/user')));
-app.use('/dashboard', routes.routerAdmin, express.static(path.join(__dirname, 'client/public/admin')));
+app.use('/user', routes.routerUser, express.static(path.join(__dirname, 'client/public/user')));
+app.use('/admin', routes.routerAdmin, express.static(path.join(__dirname, 'client/public/admin')));
 app.use('/api', routes.routerAPI);
 
 // static files

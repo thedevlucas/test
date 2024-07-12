@@ -13,15 +13,23 @@ const functions = require('./functions/functions');
 const auth = require('./functions/auth');
 
 const isAuthenticated = async (req, res, next) => {
-    let tokenInfo = await auth.verifyToken(functions.getCookie(req, "token"));
-    if (tokenInfo) return next();
+    let isAuthenticated = auth.isAuthenticated(functions.getCookie(req, 'token'));
+    if (isAuthenticated) return next();
 
     res.redirect(`/`);
 };
 
 routerUser.use(isAuthenticated);
 
-routerAdmin.use(isAuthenticated);
+const isAllowed = async (req, res, next) => {
+    let userData = auth.getUser(functions.getCookie(req, 'token'));
+    let isAllowed = auth.isAllowed(userData.group, 'admin');
+    if (isAllowed) return next();
+
+    res.redirect(`/`);
+};
+
+routerAdmin.use(isAuthenticated, isAllowed);
 
 //Database Info
 const database = {

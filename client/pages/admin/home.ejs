@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let users = JSON.parse('<%- JSON.stringify(users) %>');
+    </script>
+    <h1>admin panel</h1>
+    <a href="/">home</a>
+    <br>
+    <a href="/user/panel">user panel</a>
+    <br>
+    <a href="/api/logout">logout</a>
+    <br>
+    <h3>Users CRUD</h3>
+    <table>
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Name</td>
+                <td>Active course</td>
+            </tr>
+        </thead>
+        <tbody id="users">
+            <!-- <tr>
+                <td>1</td>
+                <td>Juan</td>
+                <td>Bronce</td>
+            </tr> -->
+        </tbody>
+    </table>
+
+    <script src="<%= getFile('admin/js/home.js') %>"></script>
+</body>
+</html>

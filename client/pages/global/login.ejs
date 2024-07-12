@@ -18,12 +18,17 @@
         <div class="inputs">
             <div class="element">
                 <span>Username</span>
-                <input type="text" name="username" />
+                <input type="text" name="username">
             </div>
             <div class="element">
                 <span>Password</span>
-                <input type="password" name="password" />
+                <input type="password" name="password">
             </div>
+            <% if (typeof error != "undefined") { %>
+            <div class="element">
+                <span><%= error %></span>
+            </div>
+            <% } %>
             <button>SIGN IN</button>
         </div>
     </form>

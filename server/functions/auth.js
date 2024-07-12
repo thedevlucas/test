@@ -10,14 +10,24 @@ const database = {
     user: config.db.user, 
     password: config.db.pass,
     database: config.db.db
-}
+};
+
+//Groups
+const groups = [
+    "admin",
+    "user"
+];
 
 module.exports.clientData = [];
 let sequence = 1;
 
 module.exports.login = async (req, res, loginInfo) => 
 {
+    if (!loginInfo) return {status: false, err: 10, info: "Empty data"};
+    if (!(loginInfo.username && loginInfo.password) && !loginInfo.token) return {status: false, err: 11, info: "Empty data"};
+
     const con = mysql.createConnection(database);
+        
     try {
         let token;
         let sessionId;
@@ -28,9 +38,8 @@ module.exports.login = async (req, res, loginInfo) =>
             
             let decodedToken = jwt.verify(loginInfo.token, config.auth.secret);
 
-            if (!decodedToken.sessionId)
+            if (!decodedToken.id && !decodedToken.sessionId)
             {
-                con.end();
                 return {status: false, err: 1, info: "Bad token"};
             }
 
@@ -43,95 +52,84 @@ module.exports.login = async (req, res, loginInfo) =>
         const [results, fields] = await con.promise().query(query);
         let result = results[0];
 
-        if (!result)
-        {
-            con.end();
-            return {status: false, err: 1, info: "User not found"};
-        }
-        
+        if (!result) return {status: false, err: 1, info: "User not found"};
         if (loginInfo.password)
         {
-            if (!await bcrypt.compare(loginInfo.password, result.password)) 
-            {
-                con.end();
-                return {status: false, err: 4, info: "Incorrect password"};
-            }
+            if (!await bcrypt.compare(loginInfo.password, result.password)) return {status: false, err: 4, info: "Incorrect password"};
         } 
 
         if (!token) {
-            // const [results, fields] = await con.promise().query(`SELECT * FROM sessions WHERE userId = ${result.id}`);
+            //Check active sessions
+            // const [sessions_results] = await con.promise().query(`SELECT id FROM sessions WHERE userId = ${result.id}`);
             
-            // if (results.length >= 3) 
+            // if (sessions_results.length >= 3) 
             // {
-            //     const [results, fields] = await con.promise().query(`DELETE FROM sessions WHERE userId = ${result.id}`);
+            //     await con.promise().query(`DELETE FROM sessions WHERE userId = ${result.id}`);
+            //     this.clientData = this.clientData.filter(user => user.id !== result.id);
             // }
 
-            const [results3, fields3] = await con.promise().query(`INSERT INTO sessions (userId, device, application, ip) VALUES (?, ?, ?, ?)`, [result.id, req.useragent.platform, req.useragent.browser, functions.getIp(req)]);
+            //Create new session
+            const [sessions_insert_results] = await con.promise().query(`INSERT INTO sessions SET ?`, {userId: result.id, device: req.useragent.platform, application: req.useragent.browser, ip: functions.getIp(req)});
             
-            token = jwt.sign({id: result.id, username: result.username, sessionId: results3.insertId}, config.auth.secret, {})
-            sessionId = results3.insertId;
+            //Create token
+            token = jwt.sign({id: result.id, username: result.username, sessionId: sessions_insert_results.insertId}, config.auth.secret, {})
+            sessionId = sessions_insert_results.insertId;
 
             res.cookie("token", token, {
                 expires: new Date("01-01-5000")
             })
         }
 
-        con.end();
-
         this.clientData.push({
             res,
-            token: token,
+            group: result.group,
+            id: result.id,
             sessionId: sessionId,
+            token: token,
             clientNo: sequence++
         });
 
         return {status: true, err: 0, info: "Logged successfully", data: {id: result.id, token: token}};
     } catch (error) {
-        console.log(error)
-        con.end(); 
+        console.error(error);
         return {status: false, err: 500, info: "Server error"};
+    } finally {
+        con.end();
     }
 }
 
 module.exports.logout = async (token, all) => 
 {
-    this.clientData = this.clientData.filter(user => user.token !== token);
-
     const con = mysql.createConnection(database);
 
     try {
         let decodedToken = jwt.verify(token, config.auth.secret);
       
-        if (!!decodedToken.sessionId)
-        {
-            con.end();
-            return false;
-        }
+        if (!decodedToken.id && !decodedToken.sessionId) return false;
 
         if (all)
         {
-            const [results, fields] = await con.promise().query(`SELECT u.id FROM users u JOIN sessions s on u.id = s.userId WHERE s.id = ${decodedToken.sessionId}`);
+            const [results] = await con.promise().query(`SELECT u.id FROM users u JOIN sessions s on u.id = s.userId WHERE s.id = ${decodedToken.sessionId}`);
             let result = results[0];
+            if (result) return false;
 
-            if (!result) 
-            {
-                con.end();
-                return false;
-            }
-
+            this.clientData = this.clientData.filter(user => user.id !== result.id);
             const [results2, fields2] = await con.promise().query(`DELETE FROM sessions WHERE userId = ${result.id}`);
+            if (results2.affectedRows == 0) return false;
         }
         else 
         {
-            const [results, fields] = await con.promise().query(`DELETE FROM sessions WHERE id = ${decodedToken.sessionId}`);
+            this.clientData = this.clientData.filter(user => user.token !== token);
+            const [results] = await con.promise().query(`DELETE FROM sessions WHERE id = ${decodedToken.sessionId}`);
+            if (results.affectedRows == 0) return false;
         }
         
-        con.end();
         return true;
     } catch (error) {
-        console.log(error)
-        con.end();
+        console.error(error)
         return false;
+    } finally {
+        con.end();
     }
 }
 
@@ -142,15 +140,16 @@ module.exports.logoutData = async (data) =>
     for (let user of this.clientData)
     {
         try {
-            const decoded = jwt.verify(user.token, config.auth.secret);
+            let decodedToken = jwt.verify(user.token, config.auth.secret);
 
-            if (decoded.cuil == data || decoded.id == data)
+            if (decodedToken.cuil == data || decodedToken.id == data)
             {
                 return await this.logout(user.token);
             }
         }
         catch (error) 
         { 
+            console.error(error);
             return await this.logout(user.token);
         }
     }
@@ -164,29 +163,42 @@ module.exports.logoutSession = async (req, id) =>
 
     const con = mysql.createConnection(database);
     try {
-        const [results, fields] = await con.promise().query(`SELECT u.id FROM users u JOIN sessions s on u.id = s.userId WHERE s.token = ${con.escape(functions.getCookie(req, "token"))}`);
-        let result = results[0];
+        let token = functions.getCookie(req, "token");
+        let decodedToken = jwt.verify(token, config.auth.secret);
 
-        const [results2, fields2] = await con.promise().query(`DELETE FROM sessions WHERE id = ${con.escape(id)} AND userId = ${result.id}`);
+        const [results] = await con.promise().query(`DELETE FROM sessions WHERE id = ${con.escape(id)} AND userId = '${decodedToken.id}'`);
+        
+        if (results.affectedRows == 0) return false;
 
         this.clientData = this.clientData.filter(x => x.sessionId != id);
 
-        return true
+        return true;
     } catch (error) {
+        console.error(error);
+    } finally {
         con.end();
-        console.log(error);
     }
 
     return false;
 }
 
-module.exports.verifyToken = async (token) =>
+module.exports.getUser = (token) => {
+    if (token === undefined) return false;
+
+    let user = this.clientData.find(user => user.token === token);
+    if (user === undefined) return true;
+    
+    return user;
+}
+
+module.exports.isAuthenticated = (token) =>
 {
     if (token == undefined) return false;
 
-    for (user of this.clientData) {
-        if (user.token == token) return true;
-    }
+    let user = this.clientData.find(user => user.token === token);
+    return user !== undefined;
+}
 
-    return false;
+module.exports.isAllowed = (userGroup, requireRole) => {
+    return groups.indexOf(userGroup) <= groups.indexOf(requireRole)
 }
